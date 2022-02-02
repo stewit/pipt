@@ -33,7 +33,7 @@ I am annoyed by the complexity of Pipenv and Poetry, which try to support way to
 
 Another point is seamless team collaboration: Syncing automatically and making sure that every developer's venv is always up-to-date reduces friction.
 
-## Getting Started
+## 🚀 Getting Started
 ### 💾 Installation
 **Prerequisites:** You need a 
 * typical Linux OS
@@ -44,7 +44,7 @@ Now simply download the `pipt` file from this repository, place it somewhere in 
 
 Alternatively you can store the `pipt` file directly in your project repository and make it executable. In this case, invoke it via `./pipt` from the same directory.
 
-### Basic usage
+### 👐 Basic usage
 `pipt` must always be invoked with deactivated virtual environment. It will tell you so if it detects itself to be running inside one.
 Run
 ```bash
@@ -52,7 +52,7 @@ pipt
 ```
 to show the usage instructions. Run `pipt help` to get more detailed help.
 
-#### Creating and activating virtual environment
+#### 🌱 Creating and activating virtual environment
 
 Run
 ```bash
@@ -73,7 +73,7 @@ in a new project. This will
 
 You may now add dependencies via `pipt add DEPENDENCY`, e.g. `pipt add "requests<3"`. To understand what happens let's recap some basic dependency management concepts.
 
-#### Interlude: Basic dependency management concepts
+#### 📚 Interlude: Basic dependency management concepts
 ##### Runtime/prod versus development dependencies
 Pipt targets the typical application development project, which has **runtime/prod dependencies** and **dev dependencies**:
 * **Runtime/prod dependencies**: Are necessary to run your application (in production). They are specified in the `requirements.in` file and locked dependencies are written to the `requirements.txt` file by pipt (respectively pip-tools).
@@ -105,7 +105,7 @@ The abstract dependency specifications (like `requests<3`, `pandas>=1.3,<1.4`) g
 
 Having locked dependencies ensures that the exact same dependencies can be installed on another system. This guarantees seamless collaboration in your team (avoid the "runs on my system" discussions) and saves you from unpleasant surprises in production.
 
-#### Adding / Removing dependencies
+#### ➕ Adding / Removing dependencies
 ##### Using pipt
 The simple way is to run
 ```bash
@@ -130,7 +130,7 @@ This will remove requests from both runtime and dev dependencies.
 ##### By editing `*.in` files directly
 Simply edit the `requirement*.in` files and run `pipt lock` or `pipt upgrade` after that.
 
-#### Locking and Upgrading
+#### 🔒 Locking and Upgrading
 ```bash
 pipt lock
 ```
@@ -144,7 +144,7 @@ pipt upgrade
 ```
 if you want to upgrade all dependencies. This will delete the existing `requirements*.txt` files and start the resolving process from scratch. Also a good option if locking somehow gets stuck.
 
-#### Running commands
+#### 🖥️ Running commands
 There is
 ```bash
 pipt run [--prod] [--silent] -- COMMAND
@@ -155,14 +155,14 @@ Like `pipt shell` and `pipt sync` it defaults to sync to the dev dependencies an
 
 Furthermore the `--silent` option surpresses pipt output to stdout.
 
-#### Syncing manually
+#### 🔄 Syncing manually
 You can sync your virtual environment manually using the `pipt sync` command. This will create the virtual environment if not existing and defaults to syncing both prod+dev dependencies. Use the `--prod` option to only sync the runtime dependencies.
 
 Note that manual syncing usually is not necessary during development, since pipt commands like `pipt shell` or `pipt run` automatically sync if necessary.
 
 Syncing manually ist more useful in CI / deployment scripts to set up a fully synced virtual environment. See the [[600_Projekte/Pipt/Pipt_Readme_Entwurf#Install dependencies in production environments|below]] for instructions on syncing without a venv.
 
-#### Changing the Python version
+#### 🐍 Changing the Python version
 First make sure that the desired Python minor version (e.g. `3.9`)
 * is either available on your PATH in the format `python3.9` or just `python`.
 * or its path is set explicitely in the generated configuration file `pipt_config.env` using the `PYTHON_INTERPRETER` variable.
@@ -173,7 +173,7 @@ The next time you run one of the typical pipt commands like `pipt shell`, the vi
 
 Remember to add the changes in all relevant files to version control.
 
-#### Install dependencies in production environments
+#### ❗ Install dependencies in production environments
 ##### with venv
 Use `pipt sync` as described above.
 ##### without venv: pipt sync-system
@@ -183,7 +183,7 @@ Like `pipt sync` it defaults to syncing both prod+dev dependencies. Use the `--p
 
 This is often used on production systems or in Dockerfiles to avoid the overhead of a virtual environment there. This repository contains a [demo Dockerfile](https://github.com/stewit/pipt/blob/main/Dockerfile).
 
-##### Falling back to pip-sync
+##### 🦺 Falling back to pip-sync
 If you do not want to trust pipt you can always use pip-sync directly to sync dependencies, whether in a venv or not. First make sure that all `requirements*.txt` files are deployed to your target environment.
 
 In the following commands we assume that `python` references the correct Python minor version of your project. If working with a venv this must be replaced with `/path/to/venv/bin/python`.
@@ -203,7 +203,7 @@ To only sync prod dependencies run:
 pip-sync requirements-base.txt requirements.txt
 ```
 
-## Configuration
+## 🔧 Configuration
 Pipt can be configured
 * **via a config file** in the project directory: `pipt_config.env` . If not present, this file is generated when running pipt. The generated example/template contains comments which describe all available options and provides basic examples.
 * **via environment variables**: Every option variable in the config file can also be set via an environment variable with the same name prefixed with `PIPT_`. E.g. to set the `SILENT` option via environment variable you have to declare `PIPT_SILENT`.
