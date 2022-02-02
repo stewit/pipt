@@ -2,7 +2,7 @@
 ## Introduction
 Pipt is a small (KISS) Bash-based[^1] convenience wrapper around [pip-tools](https://github.com/jazzband/pip-tools) providing deterministic venv handling for Python application development.
 
-![pipt_demo_gif](./pipt_demo.gif)
+![./assets/pipt_demo_gif](./pipt_demo.gif)
 
 So what does that mean, and how does it compare to similar tools like Pipenv or Poetry?
 
