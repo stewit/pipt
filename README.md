@@ -236,6 +236,16 @@ Furthermore pipt enforces some things in order to guarantee that you work with a
 
 These additional measures enable seamless collaboration in your team, if all files in the project directory (not the venv and its content) are added to version control: Whenever a team member changes dependencies or updates to a newer Python version, other team members just need to (re-)enter `pipt shell` after pulling the changes.
 
+## Development
+### Static analyis
+We use shellcheck for static code analysis:
+```
+shellcheck -x pipt
+```
+or via the ShellCheck vscode extension.
+
+### Formatting
+Pipt is formatted using shfmt (e.g. via the shell-format vscode extension).
 
 [^1]: Some Python code is involved for the (optional) add and remove subcommands. You can always fall back on adding / removing dependency specifications manually to the `requirement*.in` files.
 
