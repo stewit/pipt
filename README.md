@@ -89,6 +89,9 @@ Dependencies are managed using the typical modern workflow:
 
 ![dependency_management.svg][https://github.com/stewit/pipt/blob/main/assets/dependency_management.svg]
 
+![dependency_management.svg](./assets/dependency_management.svg)
+<img src="./assets/dependency_management.svg">
+
 (inspiration: completely analogous [pip-tools picture](https://github.com/jazzband/pip-tools/raw/master/img/pip-tools-overview.svg) )
 
 => **abstract dependency specification with version constraints**
