@@ -87,7 +87,7 @@ Pipt targets the typical application development project, which has **runtime/pr
 ##### Abstract dependency specification and locking
 Dependencies are managed using the typical modern workflow:
 
-![dependency_management.svg][https://github.com/stewit/pipt/blob/main/assets/]
+![dependency_management.svg][https://github.com/stewit/pipt/blob/main/assets/dependency_management.svg]
 
 (inspiration: completely analogous [pip-tools picture](https://github.com/jazzband/pip-tools/raw/master/img/pip-tools-overview.svg) )
 
