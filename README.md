@@ -1,19 +1,19 @@
 # Pipt
-## Introduction
+## ✨ Introduction
 Pipt is a small (KISS) Bash-based[^1] convenience wrapper around [pip-tools](https://github.com/jazzband/pip-tools) providing deterministic venv handling for Python application development.
 
 ![pipt demo gif](https://github.com/stewit/pipt/blob/main/assets/pipt_demo.gif)
 
 So what does that mean, and how does it compare to similar tools like Pipenv or Poetry?
 
-### Small / KISS
+### 👶 Small / KISS
 Pipt is much smaller and has only a small fraction of the number of features compared to e.g. Pipenv or Poetry:
 * Pipt is just a <1000 lines[^2] Bash[^1] script
 * Only supports typical Linux with Bash and CPython >=3.7. **Windows is at most a 3rd class citizen here ;-)**
 * Only supports the most-typical application development scenario: runtime + dev dependencies. No package development or publishing workflows.
 * For deployments / CI you can always fall back to pure pip-tools. Keep your production tooling small, simple and battle-tested. No need to trust pipt there!
 
-### Deterministic venv handling
+### :pushpin: Deterministic venv handling
 Pipt uses pip-tools to lock / freeze ("compile" in pip-tools terminology) dependencies and sync them with a virtual environment. This includes
 * **venv handling**: creates, syncs, activates the project virtual environment for you
 * **deterministic**: Enforces that this venv is always up-to-date when using it. This is achieved by storing some additional information / hashes in the code repository and in the venv. Examples:
@@ -21,20 +21,20 @@ Pipt uses pip-tools to lock / freeze ("compile" in pip-tools terminology) depend
     * Vice-versa it does not let you sync locked dependencies that were locked against another Python version.
     * It at least warns you if it thinks the locked dependencies were not derived from the specified dependencies in the `requirements*.in` files.
 
-### Convenience wrapper around pip-tools
+### 🎀 Convenience wrapper around pip-tools
 pip-tools' dependency solving and locking mechanisms are good enough and fast. No need to reinvent the wheel. Pipt just provides some convenience around it:
 * Simple to use commands like `pipt shell` or `pipt run -- COMMAND`, similar to what Pipenv or Poetry provide. Furthermore:
     *  `pipt lock` and `pipt upgrade` to manage locking and upgrading. `pipt sync` for manual syncing and `pipt sync-system` for no-venv syncing of your system.
     *  `pipt add` and `pipt remove` to add / remove dependency specs.
 * Creates all necessary files if not present. Start your projects from scratch by simply running `pipt shell`.
 
-### So ...  why?
+### 💡 So ...  why?
 I am annoyed by the complexity of Pipenv and Poetry, which try to support way too many use cases and setups. They have become difficult to maintain and consequently have hundreds of open issues. Therefore I do not want to use them for production applications. On the other side I envy their convenience.
 
 Another point is seamless team collaboration: Syncing automatically and making sure that every developer's venv is always up-to-date reduces friction.
 
 ## Getting Started
-### Installation
+### 💾 Installation
 **Prerequisites:** You need a 
 * typical Linux OS
 * with a recent version of Bash
@@ -64,7 +64,7 @@ in a new project. This will
 * create a virtual environment
 * activate it 
 
-**Notes**: 
+📋 **Notes**: 
 * You can deactivate the virtual environment by pressing CTRL+D or running `exit` or `deactivate` in your terminal.
 * By default pipt will use your system Python. To use a specific Python minor version just edit the PY_VERSION entry in the generated `pipt_locks.env` file to your desired minor version (e.g. `3.10`) and run `pipt lock`.
 * You should add all created files to version control. The venv and its contents should never be added to version control.
@@ -125,7 +125,7 @@ pipt remove requests
 ```
 This will remove requests from both runtime and dev dependencies.
 
-**Note**: pipt runs some Python code here since the most reliable code to parse requirement files comes from using pip as a module. This Python code is kept simple and may not handle every edge case. You can always fall back to directly editing the `requirments*.in` files if you experience any problem or do not trust that code or pipt:
+📋 **Note**: pipt runs some Python code here since the most reliable code to parse requirement files comes from using pip as a module. This Python code is kept simple and may not handle every edge case. You can always fall back to directly editing the `requirments*.in` files if you experience any problem or do not trust that code or pipt:
 
 ##### By editing `*.in` files directly
 Simply edit the `requirement*.in` files and run `pipt lock` or `pipt upgrade` after that.
@@ -214,7 +214,7 @@ Environment variables have higher priority compared to config file options, allo
 
 For details on all these options and more please examine the generated config file.
 
-## Notes on pipt automatisation and determinism
+## :book: Notes on pipt automatisation and determinism
 Pipt does several things automatically, like 
 * creating the venv if not present
 * creating all `requirement*.in` files
@@ -236,7 +236,7 @@ Furthermore pipt enforces some things in order to guarantee that you work with a
 
 These additional measures enable seamless collaboration in your team, if all files in the project directory (not the venv and its content) are added to version control: Whenever a team member changes dependencies or updates to a newer Python version, other team members just need to (re-)enter `pipt shell` after pulling the changes.
 
-## Development
+## ⚒️ Development
 ### Static analyis
 We use shellcheck for static code analysis:
 ```
