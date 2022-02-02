@@ -251,4 +251,11 @@ Pipt is formatted using shfmt (e.g. via the shell-format vscode extension).
 
 [^2]: <1000 lines if substracting blank lines, comments and usage/help text. Okay, [some people may think](https://google.github.io/styleguide/shellguide.html) this is already a monstrosity for a Bash script.
 
+### Creating a release
+* edit PIPT_VERSION constant in the pipt script
+* edit CHANGELOG.md
+* commit in main branch with commit Message of form: "Release vX.X.X"
+* `git tag vX.X.X`
+* `git push --tags origin main`
+
 
