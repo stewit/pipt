@@ -160,7 +160,7 @@ You can sync your virtual environment manually using the `pipt sync` command. Th
 
 Note that manual syncing usually is not necessary during development, since pipt commands like `pipt shell` or `pipt run` automatically sync if necessary.
 
-Syncing manually ist more useful in CI / deployment scripts to set up a fully synced virtual environment. See the [[600_Projekte/Pipt/Pipt_Readme_Entwurf#Install dependencies in production environments|below]] for instructions on syncing without a venv.
+Syncing manually ist more useful in CI / deployment scripts to set up a fully synced virtual environment. See the below for instructions on syncing without a venv.
 
 #### 🐍 Changing the Python version
 First make sure that the desired Python minor version (e.g. `3.9`)
