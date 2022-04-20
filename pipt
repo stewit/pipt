@@ -630,7 +630,9 @@ _wrap_system_pip_install() {
 
 _recreate_venv() {
     rm -fR "$VENV_PATH"
-    mkdir -p "$VENV_BASE_PATH"
+    if [[ -n "$VENV_BASE_PATH" ]]; then
+        mkdir -p "$VENV_BASE_PATH"
+    fi
     $INFERRED_PYTHON -m venv "$VENV_PATH"
 
     if [[ ! -f requirements-base.txt ]]; then
