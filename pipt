@@ -508,7 +508,7 @@ _infer_python_interpreter() {
 _init_base_in_file() {
     if [[ ! -f requirements-base.in ]]; then
         _info "--> Initiliazing requirements-base.in since it does not exist."
-        printf -- "pip<22\nwheel\npip-tools\n" >requirements-base.in
+        printf -- "pip\nwheel\npip-tools\n" >requirements-base.in
         # TODO: remove pip <22 constraints when https://github.com/jazzband/pip-tools/issues/1558 is resolved.
     fi
 }
