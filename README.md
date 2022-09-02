@@ -37,7 +37,7 @@ Another point is seamless team collaboration: Syncing automatically and making s
 ### 💾 Installation
 **Prerequisites:** You need a 
 * typical Linux OS
-* with a recent version of Bash
+* with a recent version of Bash and GNU coreutils
 * and of course the Python versions you want to use in your projects.
 
 Now simply download the `pipt` file from this repository, place it somewhere in your PATH and make it executable. After that, running `pipt` on the command line should show its usage instructions.
