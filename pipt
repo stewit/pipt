@@ -63,7 +63,12 @@ EXPLICIT_VENV_TARGET_PATH="${PIPT_EXPLICIT_VENV_TARGET_PATH:-"${EXPLICIT_VENV_TA
 PYTHON_INTERPRETER="${PIPT_PYTHON_INTERPRETER:-"${PYTHON_INTERPRETER}"}"
 SILENT="${PIPT_SILENT:-"${SILENT:-false}"}"
 SHELL_HOOK="${PIPT_SHELL_HOOK:-"${SHELL_HOOK:-""}"}"
+STORE_VENV_HASH_AFTER_SYNC="${PIPT_STORE_VENV_HASH_AFTER_SYNC:-"${STORE_VENV_HASH_AFTER_SYNC:-false}"}"
 PIP_SYNC_PIP_ARGS="${PIPT_PIP_SYNC_PIP_ARGS:-"${PIP_SYNC_PIP_ARGS:-""}"}"
+
+DEV_VENV_TAR_SHA256SUM="${DEV_VENV_TAR_SHA256SUM:-""}"
+VENV_TAR_SHA256SUM="${VENV_TAR_SHA256SUM:-""}"
+
 set -u
 
 declare -a PIP_INSTALL_ARGS="${PIPT_PIP_INSTALL_ARGS:-"${PIP_INSTALL_ARGS:-()}"}"
@@ -376,6 +381,11 @@ _update_hashes_file() {
     echo "DEPENDENCY_SPECIFICATIONS_ABORT_HASH=$DEPENDENCY_SPECIFICATIONS_ABORT_HASH" >>pipt_locks.env
     echo "DEPENDENCY_SPECIFICATIONS_FULL_HASH=$DEPENDENCY_SPECIFICATIONS_FULL_HASH" >>pipt_locks.env
     echo "PYTHON_ENVIRONMENT_BASE_HASH=$PYTHON_ENVIRONMENT_BASE_HASH" >>pipt_locks.env
+
+    if [[ $STORE_VENV_HASH_AFTER_SYNC = true ]]; then
+        echo "DEV_VENV_TAR_SHA256SUM=$DEV_VENV_TAR_SHA256SUM" >>pipt_locks.env
+        echo "VENV_TAR_SHA256SUM=$VENV_TAR_SHA256SUM" >>pipt_locks.env
+    fi
 }
 
 _infer_venv_path() {
@@ -570,6 +580,12 @@ CONFIG_FILE_TEMPLATE=$(
 ## activation of the virtual environment.
 #
 # SHELL_HOOK=example_shell_hook.sh
+
+## Store hash of tar'ed (without compression) venv in pipt_locks.env after each sync.
+## This will create DEV_VENV_TAR_SHA256SUM or VENV_TAR_SHA256SUM entries there
+#
+# STORE_VENV_HASH_AFTER_SYNC=false
+
 
 ############################## PIP_INSTALL_ARGS ###########################
 ## Additional arguments for pip install commands can be provided as Bash 
@@ -851,6 +867,25 @@ _sync() {
         _pip_sync_wrapped requirements-base.txt requirements.txt requirements-dev.txt
     fi
     printf '%s' "$LOCKED_DEPS_HASH" >"$VENV_PATH"/installed_locked_deps_hash.txt
+
+    if [[ $STORE_VENV_HASH_AFTER_SYNC = true ]]; then
+        local NEW_VENV_TAR_HASH
+        NEW_VENV_TAR_HASH="$(tar -c -C "$VENV_PATH" . | sha256sum | cut -d " " -f 1)"
+
+        if [[ $USE_PROD_ENVIRONMENT = true ]]; then
+            if [[ "$NEW_VENV_TAR_HASH" != "$VENV_TAR_SHA256SUM" ]]; then
+                VENV_TAR_SHA256SUM="$NEW_VENV_TAR_HASH"
+                _info "--> Updating prod venv tar'ed sha256sum in locks file"
+                _update_hashes_file
+            fi
+        else
+            if [[ "$NEW_VENV_TAR_HASH" != "$DEV_VENV_TAR_SHA256SUM" ]]; then
+                DEV_VENV_TAR_SHA256SUM="$NEW_VENV_TAR_HASH"
+                _info "--> Updating dev venv tar'ed sha256sum in locks file"
+                _update_hashes_file
+            fi
+        fi
+    fi
 }
 
 _parse_global_options() {
