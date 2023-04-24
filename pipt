@@ -527,7 +527,7 @@ _check_not_in_venv() {
     #
     # Therefore we only check for active virtual environment (see https://stackoverflow.com/a/1883251)
     # and in that case ask the user to deactivate it manually.
-    if python -c "import sys; sys.exit(1-int(sys.prefix != sys.base_prefix))"; then
+    if command -v python >/dev/null && python -c "import sys; sys.exit(1-int(sys.prefix != sys.base_prefix))"; then
         _log_error "--> ERROR: An active virtual environment was detected."
         _log_error "    Please deactivate it before running this script."
         exit 8
