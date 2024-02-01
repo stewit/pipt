@@ -9,7 +9,7 @@ So what does that mean, and how does it compare to similar tools like Pipenv or 
 ### 👶 Small / KISS
 Pipt is much smaller and has only a small fraction of the number of features compared to e.g. Pipenv or Poetry:
 * Pipt is just a <1000 lines[^2] Bash[^1] script
-* Only supports typical Linux with Bash and CPython >=3.7. **Windows is at most a 3rd class citizen here ;-)**
+* Only supports typical Linux/Unix with recent Bash, GNU coreutils and CPython >=3.7. **Windows is at most a 3rd class citizen here ;-)**
 * Only supports the most-typical application development scenario: runtime + dev dependencies. No package development or publishing workflows.
 * For deployments / CI you can always fall back to pure pip-tools. Keep your production tooling small, simple and battle-tested. No need to trust pipt there!
 
@@ -36,9 +36,9 @@ Another point is seamless team collaboration: Syncing automatically and making s
 ## 🚀 Getting Started
 ### 💾 Installation
 **Prerequisites:** You need a 
-* typical Linux OS
-* with a recent version of Bash
-* and of course the Python versions you want to use in your projects.
+* typical Linux OS or MacOS
+* with a recent version of Bash(>=5.x) and GNU coreutils
+* and of course the CPython versions you want to use in your projects.
 
 Now simply download the `pipt` file from this repository, place it somewhere in your PATH and make it executable. After that, running `pipt` on the command line should show its usage instructions.
 
