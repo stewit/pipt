@@ -180,7 +180,7 @@ _hash_multiple() {
             shift
             ;;
         *)
-            concated_content+="$(_load_file "$1"  | _trim_whitespace_from_input)"
+            concated_content+="$(_load_file "$1" | _trim_whitespace_from_input)"
             concated_content+="$HASH_SEP_WITH_NEWLINES"
             shift
             ;; # defaulting to files.
