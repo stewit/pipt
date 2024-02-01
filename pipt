@@ -13,7 +13,7 @@
 #
 # ===== LICENSE =====
 #
-#        Copyright © 2022 Steffen Wittkamp
+#        Copyright © 2024 Steffen Wittkamp
 #
 #
 #        MIT License
@@ -34,7 +34,7 @@ set -euo pipefail
 #                                                                             #
 ###############################################################################
 
-declare -r PIPT_VERSION="0.1.0"
+declare -r PIPT_VERSION="0.2.0"
 
 # Hash separator:
 declare -r HASH_SEP="b703d2e29001d23a7a3b153619c4a3cf0d75c0e5bc44cfe8991371344cd3cd1d"
@@ -129,9 +129,22 @@ _log_error() {
 ###############################################################################
 
 _trim_whitespace() {
-    # strip whitespace like spaces or newline from the input from both ends
-    # see https://stackoverflow.com/a/12973694
-    printf '%s' "$1" | xargs
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"
+    printf '%s' "$var"
+}
+
+_trim_whitespace_from_input() {
+    local var
+    var="$(cat)"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"
+    printf '%s' "$var"
 }
 
 _load_file() {
@@ -160,13 +173,13 @@ _hash_multiple() {
             shift
             ;;
         -f | --file)
-            concated_content+="$(_trim_whitespace "$(_load_file "$2")")"
+            concated_content+="$(_load_file "$2" | _trim_whitespace_from_input)"
             concated_content+="$HASH_SEP_WITH_NEWLINES"
             shift
             shift
             ;;
         *)
-            concated_content+="$(_trim_whitespace "$(_load_file "$1")")"
+            concated_content+="$(_load_file "$1"  | _trim_whitespace_from_input)"
             concated_content+="$HASH_SEP_WITH_NEWLINES"
             shift
             ;; # defaulting to files.
