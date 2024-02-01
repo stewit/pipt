@@ -2,3 +2,5 @@ requirements*.in
 requirements*.txt
 pipt_config.env
 pipt_locks.env
+test*/**
+result
