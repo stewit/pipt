@@ -10,7 +10,7 @@
 #       docker run -it pipt-python-test bash
 
 
-FROM python:3.10.2-buster as base
+FROM python:3.12.4-bookworm as base
 
 # Copy relevant files
 COPY ./pipt_locks.env /app/pipt_locks.env

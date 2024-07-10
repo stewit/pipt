@@ -1,6 +1,3 @@
-requirements*.in
-requirements*.txt
-pipt_config.env
-pipt_locks.env
-test*/**
 result
+**/.pytest_cache
+**/__pycache__
