@@ -10,7 +10,7 @@ Pipt is a small (KISS) Bash-based[^1] convenience wrapper around [pip-tools](htt
 So what does that mean, and how does it compare to similar tools like [Pipenv](https://pipenv.pypa.io/en/latest/), [Poetry](https://python-poetry.org/), [PDM](https://pdm-project.org/en/latest/), [Hatch](https://github.com/pypa/hatch) or [Rye](https://github.com/astral-sh/rye)?
 
 ### 👶 Small / KISS
-Pipt is much smaller and has only a small fraction of the number of features compared to e.g. Pipenv, Poetry or PDM:
+Pipt is much smaller and has only a small fraction of the number of features compared to e.g. Pipenv, Poetry, PDM or uv:
 * Pipt is just a <1500 lines[^2] Bash[^1] script. Install it by simply copying the script.
 * Only supports typical Linux/Unix with recent Bash, GNU coreutils and CPython >=3.7. **Windows is at most a 2nd class citizen here ;-)** via [Git Bash](https://git-scm.com/download/win).
 * Only supports the typical application development scenario: runtime + dev dependencies which have to be locked in order to achieve the desired determinism / reproducibility. No support for package / library development and associated publishing workflows.
@@ -24,12 +24,12 @@ Pipt uses pip-tools or uv to lock / freeze ("compile" in pip-tools' / uv's termi
     * Vice-versa it does not let you sync locked dependencies that were locked against another Python version.
     * Detects if the venv does not match the locked dependencies, for example if packages were installed manually via `pip install` into it.
     * Detects and warns you if it discovers that the locked dependencies were not derived from the specified asbtract dependencies in the `requirements*.in` files.
-    * Consequently: If you invoke `pipt shell`, `pipt run` or similar commands you can be quite sure that your commands are run in a reproducible environment fitting the locked dependencies.
+    * Consequently: If you invoke `pipt shell`, `pipt run` or similar commands you can be quite sure that your commands are run in a reproducible environment fitting exactly the locked dependencies.
 * **lazy**: Pipt only (re)creates the venv or syncs it if it detects that this is necessary.
 
 ### 🎀 Convenience wrapper around pip-tools / uv
 pip-tools' and uv's dependency solving and locking mechanisms are good and fast enough. No need to reinvent the wheel. Pipt just provides some convenience around it:
-* Simple to use commands like `pipt shell` or `pipt run -- COMMAND`, similar to what Pipenv, Poetry etc. provide. Furthermore:
+* Simple to use commands like `pipt shell` or `pipt run -- COMMAND`, similar to what Pipenv, Poetry, uv etc. provide. Furthermore:
     *  `pipt lock` and `pipt upgrade` to manage locking and upgrading. `pipt sync` for manual syncing and `pipt sync-system` for no-venv syncing of your system (e.g. in Dockerfiles)
     *  `pipt add` and `pipt remove` to add / remove dependency specs.
 * Creates all necessary files if not present. Start your projects from scratch by simply running `pipt shell`.
@@ -276,6 +276,18 @@ Furthermore pipt enforces some things in order to guarantee that you work with a
 These additional measures enable seamless collaboration in your team, if all files in the project directory (not the venv and its content) are added to version control: Whenever a team member changes dependencies or updates to a newer Python version, other team members just need to (re-)enter `pipt shell` after pulling the changes.
 
 Generally the next `pipt shell`, `pipt run`, `pipt sync` or similar pipt command will detect mismatches and try to either fix them by itself or abort / warn the user.
+
+## 🧭 Comparison: Pipt versus uv
+At the time of writing (2025-06-24) uv is emerging as the new quasi-standard for Python dependency and project management.
+
+Under the hood, pipt uses uv now, profiting from its speed and dependency resolution algorithm choices.
+
+Since uv has much more features it is of course a reasonable question to ask why one would use pipt over using uv's project management capabilities. Here are some points:
+
+* pipt has a `shell` subcommand. This is possible since it only needs to support bash. [uv has none](https://github.com/astral-sh/uv/issues/1910) so far. pipt's shell command also functions as init command.
+* uv has somehow [inconsistent behaviour](https://github.com/astral-sh/uv/issues/14230) with respect to ensuring that your venv is up to date / in-sync between its subcommands. pipt definitely makes sure that the venv is synced everytime you invoke it.
+* [Currently](https://github.com/astral-sh/uv/issues/1495), uv has no direct configuration option to store the venv at another path outside the project directory. Pipt by default stores venvs in a separate location in your $HOME directory and additionally allows to configure the path for your project. Having your venv externally avoids the need to configure IDE and tooling to exclude it from indexing, searching, file sync operations etc.
+* pipt is just a shell script: It is easier to customize. And sometimes you are allowed to bring a shell script but not a binary directly ;-).
 
 ## ⚒️ Development
 ### Tests
