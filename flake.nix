@@ -1,5 +1,5 @@
 {
-    description = "Pipt is a small (KISS) Bash-based convenience wrapper around pip-tools providing deterministic venv handling for Python application development.";
+    description = "Pipt is a small (KISS) Bash-based convenience wrapper around uv / pip-tools providing deterministic venv handling for Python application development.";
 
     # Selected nixpkgs branch, something like
     #   "nixpkgs/nixos-unstable"
@@ -59,7 +59,7 @@
                         ''; 
                 });            
             
-            in      
+            in
             rec {
                 # run
                 #     nix develop -i
@@ -81,8 +81,12 @@
                         pkgs.bashInteractive
                     ];
                     shellHook = ''
-                        export HOME=./testhome
-                        mkdir -p $HOME
+                        # Absolute, so that it survives cd'ing into
+                        # subdirectories like ./tests. With a relative path
+                        # pipt's `-d "$HOME"` check fails there and the venv
+                        # path degrades to /venv.
+                        export HOME="$PWD/testhome"
+                        mkdir -p "$HOME"
 
                         # tests/conftest.py falls back to /usr/bin/python3.14,
                         # which does not exist inside the isolated shell

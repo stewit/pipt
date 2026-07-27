@@ -290,10 +290,18 @@ Since uv has much more features it is of course a reasonable question to ask why
 * pipt is just a shell script: It is easier to customize. And sometimes you are allowed to bring a shell script but not a binary directly ;-).
 
 ## ⚒️ Development
+
+### Development shell
+```
+nix --extra-experimental-features 'nix-command flakes' develop -i
+```
+
+In this shell the command `pipt` refers to the version of pipt fixed during shell invocation and uses fixed versions of dependencies for reproducible results. But you can also refer `./pipt`, i.e. the current script, for live editing and development.
+
 ### Tests
 ```
 cd tests
-../pipt shell
+../pipt shell       # or `pipt shell` in the nix development shell
 python -m pytest -s .
 ```
 

@@ -1,4 +1,4 @@
-import os
+import shutil
 import subprocess
 
 
@@ -8,7 +8,9 @@ def test_detect_manual_pip_install(tmp_path, python_interpreter):
     This test requires a uv to be present in the PATH!
     """
 
-    uv_path = os.environ["HOME"] + "/.local/bin/uv"
+    uv_path = shutil.which("uv")
+    assert uv_path is not None, "uv not found in PATH"
+
     project_dir = tmp_path / "myproject"
 
     uv_env = {}
