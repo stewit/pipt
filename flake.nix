@@ -5,7 +5,7 @@
     #   "nixpkgs/nixos-unstable"
     # or 
     #   "nixpkgs/nixos-23.11"
-    inputs.nixpkgs-selected.url = "nixpkgs/nixos-23.11";
+    inputs.nixpkgs-selected.url = "nixpkgs/nixos-26.05";
 
     inputs.flake-utils.url = "github:numtide/flake-utils";
     
@@ -65,13 +65,28 @@
                 #     nix develop -i
                 # to get an isolated dev shell which includes a python installation
                 # with home directory set to ./testhome. Then run
+                #     ./pipt ...
+                # for development testing: It will store the venv in testhome.
+                #
+                # The shell also provides the nix-wrapped script as the plain
+                # command
                 #     pipt ...
-                # there for development testing.
+                # Note the difference: `pipt` is the built derivation and thus a
+                # snapshot taken when the shell was entered, while `./pipt` is
+                # the live working copy. Use `./pipt` while editing the script.
                 devShell = pkgs.mkShell {
-                    buildInputs = runtime_dependencies ++ [ pkgs.python311Packages.python pkgs.bashInteractive]; 
+                    buildInputs = runtime_dependencies ++ [
+                        pipt_script_wrapped
+                        pkgs.python314
+                        pkgs.bashInteractive
+                    ];
                     shellHook = ''
                         export HOME=./testhome
                         mkdir -p $HOME
+
+                        # tests/conftest.py falls back to /usr/bin/python3.14,
+                        # which does not exist inside the isolated shell
+                        export FULL_PYTHON_PATH="${pkgs.python314}/bin/python3.14"
                     '';
                 };
 
