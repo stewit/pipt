@@ -1,3 +1,9 @@
+## 0.4.0
+* upgrade (develop / test) dependencies 
+* cleanup: remove wheel from base dependencies
+* upgrade and improve flake development setup
+* add tests comparing features against pure uv
+
 ## 0.3.0
 * add support for [uv](https://github.com/astral-sh/uv) and switch the default from pip-tools to uv.
 * improved is-synced check
