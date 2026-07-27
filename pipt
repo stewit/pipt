@@ -647,9 +647,9 @@ _init_base_in_file() {
     if [[ ! -f "$REQ_BASE_IN" ]]; then
         _info "--> Initiliazing requirements-base.in since it does not exist."
         if [[ $USE_UV = false ]]; then
-            printf -- "packaging\npip>=24\npip-tools\nwheel\n" >"$REQ_BASE_IN"
+            printf -- "packaging\npip>=24\npip-tools\n" >"$REQ_BASE_IN"
         else
-            printf -- "packaging\npip>=24\nuv\nwheel\n" >"$REQ_BASE_IN"
+            printf -- "packaging\npip>=24\nuv\n" >"$REQ_BASE_IN"
         fi
     fi
 }

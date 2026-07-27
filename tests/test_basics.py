@@ -22,7 +22,7 @@ def check_created_files(path, check_req_txt_empty: bool = True, uv=True):
 
     req_base_in_content = get_file_content(path / "requirements-base.in")
 
-    assert all(substring in req_base_in_content for substring in ("pip", "wheel"))
+    assert all(substring in req_base_in_content for substring in ("pip"))
 
     if uv:
         assert "uv" in req_base_in_content
@@ -31,10 +31,7 @@ def check_created_files(path, check_req_txt_empty: bool = True, uv=True):
 
     req_base_txt_content = get_file_content(path / "requirements-base.txt")
 
-    assert all(
-        substring in req_base_txt_content
-        for substring in ("pip==", "wheel==", "--hash=")
-    )
+    assert all(substring in req_base_txt_content for substring in ("pip==", "--hash="))
 
     if uv:
         assert "uv==" in req_base_txt_content
