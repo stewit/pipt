@@ -7,7 +7,7 @@ from . import get_file_content
 
 @pytest.mark.parametrize("use_uv", [True, False], ids=["using uv", "using pip-tools"])
 def test_switch_base_tool(tmp_path, use_uv):
-    python_interpreter = "/usr/bin/python3.12"
+    python_interpreter = "/usr/bin/python3.14"
 
     pipt_abs_path = os.path.abspath("../pipt")
 
